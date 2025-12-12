@@ -1,12 +1,53 @@
-**How to use in terminal command line:**
+Philosophical Debate Generator
+Hobbes · Rousseau · Locke
 
+This program generates a philosophical conversation between
+Thomas Hobbes, Jean-Jacques Rousseau, and John Locke based on a user’s question.
+
+Each philosopher responds in a distinct rhetorical style, and
+audio (voice) files are generated alongside the text debate.
+
+REQUIREMENTS
+
+Python (Python 3 recommended)
+
+Install required Python packages:
+pip install openai
+pip install pydub
+
+Install ffmpeg (required for audio generation):
+brew install ffmpeg
+
+
+HOW TO USE (Terminal)
+
+Open your terminal.
+
+Navigate to the directory containing ask.py.
+
+Run the program:
 python ask.py
 
--> Pose your question to Hobbes, Rousseau, and Locke:
+When prompted, pose your question to Hobbes, Rousseau, and Locke.
 
-This will generate a conversation between Hobbes, Rousseau, and Locke about the question.
-Also, voice file will be generated too.
+The program will:
 
-**Note**: You need your .env file in the same position of ask.py level. In .env file put your OPEN AI api key with the following format: API_KEY=sk-proj-gF_.....
+Generate a conversation between the three philosophers
 
-Also, in ask.py, change SAVE_DIR variable to your location of voice folder and debate_outputs folder. 
+Save the debate as text files
+
+Generate voice (audio) files for the responses
+
+ENVIRONMENT SETUP (.env FILE)
+
+You must create a file named ".env" in the SAME directory as ask.py.
+
+Inside the .env file, add your OpenAI API key in the following format:
+
+API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxx
+
+IMPORTANT:
+
+Do NOT share your API key publicly.
+
+Make sure the file name is exactly ".env" (no extra extension).
