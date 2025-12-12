@@ -3,11 +3,21 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime
 from pydub import AudioSegment
+from pathlib import Path
 
 load_dotenv()
 
 api_key = os.getenv("API_KEY")
 client = OpenAI(api_key=api_key)
+
+current_file = Path(__file__).resolve()
+current_dir = current_file.parent
+
+script_dir = current_dir / "script"
+script_dir.mkdir(exist_ok=True)
+
+voices_dir = current_dir / "voices"
+voices_dir.mkdir(exist_ok=True)
 
 VOICES = {
     "Hobbes": "alloy",
@@ -40,8 +50,6 @@ def parse_dialogue(full_text):
 
 def make_audio_from_text(full_text):
     dialogues = parse_dialogue(full_text)
-    SAVE_DIR = "/Users/ian/Downloads/projects/Custom_GPT/voices"
-    
     output_files = []
 
     # 개별 TTS 생성
@@ -50,7 +58,7 @@ def make_audio_from_text(full_text):
         text = d["text"]
         voice = VOICES.get(spk, "alloy")
 
-        filename = os.path.join(SAVE_DIR, f"{i:03d}_{spk}.mp3")
+        filename = os.path.join(voices_dir, f"{i:03d}_{spk}.mp3")
         print(f"Generating audio: {filename}")
         tts_to_file(text, voice, filename)
         output_files.append(filename)
@@ -62,8 +70,8 @@ def make_audio_from_text(full_text):
         combined += seg + AudioSegment.silent(300)
 
     final_audio_path = os.path.join(
-        SAVE_DIR,
-        f"debate_audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}.mp3"
+        voices_dir,
+        f"voice_{datetime.now().strftime('%Y%m%d_%H%M%S')}.mp3"
     )
 
     combined.export(final_audio_path, format="mp3")
@@ -122,10 +130,9 @@ def ask(ques):
             full_text += text
 
     print("\n\n--- End of Debate ---\n")
-    SAVE_DIR = "/Users/ian/Downloads/projects/Custom_GPT/debate_outputs"
     filename = os.path.join(
-        SAVE_DIR,
-        f"debate_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        script_dir,
+        f"script_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
     )
 
     with open(filename, "w", encoding="utf-8") as f:
